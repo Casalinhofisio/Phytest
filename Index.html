@@ -1,0 +1,229 @@
+# Phytest
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<title>OxFisio - Avaliação de Força</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f0f0f0; }
+    table { border-collapse: collapse; width: 100%; background-color: white; margin-bottom: 30px; }
+    th, td { border: 1px solid #ccc; text-align: center; padding: 8px; }
+    th { background-color: #ddd; }
+    .color-box { color: white; font-weight: bold; padding: 5px; }
+    .grau-5    { background-color: #2ecc71; }
+    .grau-4p   { background-color: #a3d977; }
+    .grau-4    { background-color: #f1c40f; }
+    .grau-4m   { background-color: #f39c12; }
+    .grau-3    { background-color: #e67e22; }
+    .grau-2    { background-color: #e74c3c; }
+    .grau-1, .grau-0 { background-color: #c0392b; }
+    button { padding: 10px 15px; margin: 10px 0; cursor: pointer; }
+    svg { width: 100%; height: auto; margin: 20px 0; border: 1px solid #aaa; }
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script></head>
+<body style=" background-color: #e6f3f9; padding: 40px;">
+<header style="background-color: #2a6f8f; color: white; padding: 20px; text-align: center; border-radius: 0 0 12px 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+<h1 style="margin: 0; font-size: 32px; font-family: 'Segoe UI', sans-serif;">🔍 AvaliaFisio — Sistema de Avaliação Fisioterapêutica</h1>
+</header>
+<div id="tabelaCompleta">
+<table id="tabela">
+<thead>
+<tr>
+<th>Movimento (Musculatura)</th>
+<th>Lado Direito (0–5)</th>
+<th>Lado Esquerdo (0–5)</th>
+<th>Cor Direita</th>
+<th>Cor Esquerda</th>
+<th>Força Direita (%)</th>
+<th>Força Esquerda (%)</th>
+<th>Interpretação</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Flexão de Quadril<br/><small>(Iliopsoas, Reto Femoral)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD0"></td><td class="color-box" id="colorE0"></td>
+<td id="percentD0"></td><td id="percentE0"></td><td id="interp0"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Extensão de Quadril<br/><small>(Glúteo Máximo, Isquiotibiais)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD1"></td><td class="color-box" id="colorE1"></td>
+<td id="percentD1"></td><td id="percentE1"></td><td id="interp1"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Abdução de Quadril<br/><small>(Glúteo Médio, Glúteo Mínimo)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD2"></td><td class="color-box" id="colorE2"></td>
+<td id="percentD2"></td><td id="percentE2"></td><td id="interp2"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Adução de Quadril<br/><small>(Adutores)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD3"></td><td class="color-box" id="colorE3"></td>
+<td id="percentD3"></td><td id="percentE3"></td><td id="interp3"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Flexão de Joelho<br/><small>(Isquiotibiais)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD4"></td><td class="color-box" id="colorE4"></td>
+<td id="percentD4"></td><td id="percentE4"></td><td id="interp4"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Extensão de Joelho<br/><small>(Quadríceps)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD5"></td><td class="color-box" id="colorE5"></td>
+<td id="percentD5"></td><td id="percentE5"></td><td id="interp5"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Dorsiflexão do Tornozelo<br/><small>(Tibial Anterior)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD6"></td><td class="color-box" id="colorE6"></td>
+<td id="percentD6"></td><td id="percentE6"></td><td id="interp6"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Flexão Plantar<br/><small>(Gastrocnêmio, Sóleo)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD7"></td><td class="color-box" id="colorE7"></td>
+<td id="percentD7"></td><td id="percentE7"></td><td id="interp7"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Flexão de Ombro<br/><small>(Deltoide Anterior)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD8"></td><td class="color-box" id="colorE8"></td>
+<td id="percentD8"></td><td id="percentE8"></td><td id="interp8"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Abdução de Ombro<br/><small>(Deltoide Médio)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD9"></td><td class="color-box" id="colorE9"></td>
+<td id="percentD9"></td><td id="percentE9"></td><td id="interp9"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Extensão de Cotovelo<br/><small>(Tríceps)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD10"></td><td class="color-box" id="colorE10"></td>
+<td id="percentD10"></td><td id="percentE10"></td><td id="interp10"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Flexão de Cotovelo<br/><small>(Bíceps)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD11"></td><td class="color-box" id="colorE11"></td>
+<td id="percentD11"></td><td id="percentE11"></td><td id="interp11"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Extensão de Punho<br/><small>(Extensores do Antebraço)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD12"></td><td class="color-box" id="colorE12"></td>
+<td id="percentD12"></td><td id="percentE12"></td><td id="interp12"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+<tr><td>Flexão de Punho<br/><small>(Flexores do Antebraço)</small></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td><input max="5" min="0" onchange="atualizar(this)" step="0.5" type="number" value="5"/></td>
+<td class="color-box" id="colorD13"></td><td class="color-box" id="colorE13"></td>
+<td id="percentD13"></td><td id="percentE13"></td><td id="interp13"></td></tr>
+<tr class="teste-row">
+<td colspan="8" style="text-align:center; padding: 10px;">
+<button onclick="iniciarTeste(this)">Iniciar Teste</button>
+<div class="barra-tempo" style="margin-top: 5px; height: 20px; width: 100%; background-color: #ccc;">
+<div class="barra-progresso" style="height: 100%; width: 0%; background-color: red;"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div><svg height="1350" preserveaspectratio="xMidYMid meet" version="1.2" viewbox="0 0 810 1012.49997" width="1080" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomandpan="magnify"><defs><clippath id="ceda9300ec"><path d="M 0.199219 0 L 809.800781 0 L 809.800781 1012 L 0.199219 1012 Z M 0.199219 0 " id="svg4_1"></path></clippath><clippath id="032647c338"><path d="M 82 139.734375 L 746 139.734375 L 746 808.40625 L 82 808.40625 Z M 82 139.734375 " id="svg4_2"></path></clippath></defs><g id="c782de7a90"><g clip-path="url(#ceda9300ec)" clip-rule="nonzero" id="svg4_3"><path d="M 0.199219 0 L 809.800781 0 L 809.800781 1012 L 0.199219 1012 Z M 0.199219 0 " id="svg4_4" style=" stroke:none;fill-rule:nonzero;fill:#ffffff;fill-opacity:1;"></path><path d="M 0.199219 0 L 809.800781 0 L 809.800781 1012 L 0.199219 1012 Z M 0.199219 0 " id="svg4_5" style=" stroke:none;fill-rule:nonzero;fill:#ffffff;fill-opacity:1;"></path></g><g clip-path="url(#032647c338)" clip-rule="nonzero" id="svg4_6"><path d="M 631.648438 647.90625 L 742.679688 594.007812 L 745.96875 591.972656 C 745.675781 589.59375 745.566406 587.210938 745.636719 584.820312 C 745.824219 573.804688 744.984375 562.867188 743.121094 552.007812 C 741.3125 541.425781 738.546875 531.101562 734.828125 521.03125 C 731.105469 510.960938 726.492188 501.316406 720.984375 492.101562 C 717.589844 486.425781 714.867188 482.226562 713.722656 475.632812 C 712.933594 470.871094 712.582031 466.109375 711.683594 461.347656 C 709.808594 450.714844 706.777344 440.421875 702.59375 430.472656 C 700.722656 425.964844 698.605469 421.578125 696.246094 417.308594 C 693.976562 413.109375 688.738281 408.242188 687.613281 403.917969 C 686.46875 399.945312 687.15625 400.402344 688.738281 396.886719 C 690.601562 392.148438 691.664062 387.230469 691.921875 382.144531 C 693.679688 359.105469 686.46875 335.503906 678.082031 314.398438 C 671.59375 297.828125 662.980469 281.941406 650.832031 268.707031 C 637.660156 254.527344 620.0625 243.507812 600.652344 240.34375 C 592.933594 239.097656 585.546875 240.675781 577.933594 240.34375 C 573.167969 240.113281 570.902344 235.914062 567.261719 233.191406 C 563.179688 230.15625 558.789062 227.660156 554.09375 225.703125 C 540.238281 219.570312 525.378906 216.390625 511.066406 211.503906 C 505.511719 209.75 500.0625 207.761719 494.488281 205.953125 C 491.761719 205.039062 483.816406 203.789062 481.777344 201.648438 C 483.148438 203 482.234375 200.855469 482.234375 199.589844 C 482.246094 197.203125 482.09375 194.824219 481.777344 192.457031 C 481.441406 186.429688 481.089844 180.3125 480.757812 174.179688 C 480.421875 168.046875 478.996094 147.820312 482.109375 140.140625 C 482.253906 140.007812 482.371094 139.855469 482.460938 139.683594 L 343.558594 139.683594 C 347.992188 144.796875 347.304688 169.292969 346.972656 175.550781 C 346.636719 181.804688 346.179688 187.851562 345.828125 194.160156 C 345.796875 196.324219 345.648438 198.480469 345.390625 200.628906 C 345.039062 203.5625 346.285156 201.066406 345.039062 201.875 C 341.414062 204.371094 335.613281 205.160156 331.535156 206.515625 C 326.082031 208.273438 320.632812 210.382812 315.058594 212.085938 C 298.832031 217.359375 281.460938 220.484375 266.480469 229.097656 C 263.316406 230.847656 260.386719 232.929688 257.6875 235.335938 C 253.835938 238.640625 253.152344 240.605469 247.929688 240.113281 C 238.074219 239.011719 228.347656 239.691406 218.742188 242.152344 C 200.476562 247.25 184.457031 258.953125 172.429688 273.46875 C 160.40625 287.984375 152.210938 305.472656 146.058594 323.289062 C 139.253906 343.148438 133.238281 364.589844 136.070312 385.816406 C 136.695312 389.992188 137.792969 394.039062 139.359375 397.960938 C 139.710938 398.980469 140.957031 400.105469 141.117188 400.914062 C 141.34375 403.617188 137.496094 407.378906 136.125 409.417969 C 130.566406 417.800781 126.101562 426.726562 122.726562 436.199219 C 119.101562 445.832031 116.53125 455.738281 115.007812 465.917969 C 114.214844 471.03125 114.320312 476.582031 112.617188 481.46875 C 110.46875 487.601562 105.8125 493.050781 102.75 498.726562 C 97.683594 508.199219 93.523438 518.058594 90.273438 528.300781 C 87.023438 538.539062 84.734375 548.992188 83.410156 559.652344 C 82.433594 569.542969 82.015625 579.453125 82.164062 589.386719 C 82.164062 590.511719 82.164062 591.65625 82.058594 592.796875 L 83.816406 594.378906 C 90.410156 600.617188 180.519531 641.246094 198.101562 649.875 C 202.636719 636.425781 206.238281 622.730469 208.898438 608.789062 C 210.8125 598.015625 212.183594 587.121094 214.453125 576.332031 C 216.335938 566.691406 217.210938 556.960938 217.074219 547.140625 C 217.074219 542.273438 215.59375 536.597656 216.160156 531.835938 C 216.84375 525.929688 222.628906 520.359375 226.039062 515.597656 C 233.023438 506.164062 239.382812 496.328125 245.117188 486.089844 C 244.554688 485.984375 243.867188 485.757812 243.359375 485.652344 C 246.960938 512.644531 251.199219 539.707031 258.339844 566.066406 C 261.097656 576.503906 264.433594 586.757812 268.34375 596.820312 C 268.78125 597.945312 270.382812 600.441406 270.382812 601.8125 C 270.488281 605.097656 270.257812 610.773438 268.21875 613.375 C 259.429688 629.382812 258.691406 645.007812 254.714844 663.425781 C 251.199219 681.472656 253.117188 689.785156 247.894531 710.625 C 244.378906 724.578125 241.988281 753.191406 238.46875 762.027344 C 262.664062 779.601562 344.863281 808.335938 410.777344 808.335938 C 477.765625 808.335938 563.023438 770.324219 590.117188 761.800781 C 589.660156 748.636719 585.6875 736.953125 582.839844 724.476562 C 580.132812 712.332031 576.371094 700.417969 573.644531 688.273438 C 570.480469 674.652344 569.109375 663.425781 565.257812 650.15625 C 563.09375 638.222656 561.390625 635.519531 558.328125 624.269531 C 556.570312 621.441406 557.082031 605.890625 556.957031 602.707031 C 556.851562 599.878906 560.035156 595.34375 561.054688 592.621094 C 564.667969 582.792969 567.769531 572.804688 570.355469 562.660156 C 576.574219 537.40625 581.265625 511.871094 584.421875 486.054688 C 583.859375 486.285156 583.171875 486.40625 582.664062 486.636719 C 588.421875 496.71875 594.738281 506.4375 601.617188 515.789062 C 605.132812 520.550781 610.691406 525.773438 611.375 531.800781 C 612.0625 537.828125 610.355469 544.382812 610.480469 550.179688 C 610.671875 559.472656 611.726562 568.660156 613.644531 577.753906 C 616.367188 589.546875 617.511719 601.582031 619.902344 613.5 C 622.320312 625.476562 625.417969 637.273438 629.203125 648.890625 Z M 631.648438 647.90625 " id="svg4_7" style=" stroke:none;fill-rule:nonzero;fill:#474f69;fill-opacity:1;"></path></g><path d="M 127.101562 480.644531 C 123.816406 484.773438 120.738281 489.054688 117.871094 493.484375 C 115 497.917969 112.347656 502.476562 109.921875 507.160156 C 107.492188 511.847656 105.296875 516.640625 103.332031 521.539062 C 101.367188 526.441406 99.644531 531.421875 98.164062 536.488281 C 96.683594 541.554688 95.449219 546.679688 94.464844 551.867188 C 93.480469 557.050781 92.75 562.273438 92.273438 567.53125 C 91.792969 572.785156 91.570312 578.054688 91.601562 583.332031 C 91.636719 588.609375 91.921875 593.875 92.464844 599.125 L 92.695312 599.230469 C 100.871094 598.4375 106.320312 590.722656 110.644531 583.800781 C 120.40625 568.140625 129.988281 552.167969 135.15625 534.433594 C 140.324219 516.703125
